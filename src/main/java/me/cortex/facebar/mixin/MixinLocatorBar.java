@@ -3,7 +3,7 @@ package me.cortex.facebar.mixin;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.contextualbar.LocatorBarRenderer;
+import net.minecraft.client.gui.contextualbar.LocatorBar;
 import net.minecraft.client.resources.WaypointStyle;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LocatorBarRenderer.class)
-public class MixinLocatorBarRenderer {
+@Mixin(LocatorBar.class)
+public class MixinLocatorBar {
     @Shadow @Final private Minecraft minecraft;
     @Unique private Identifier blitOverride;
     @Unique private TrackedWaypoint waypoint;
@@ -44,7 +44,7 @@ public class MixinLocatorBarRenderer {
         } else {
             float distance = Mth.sqrt((float)this.waypoint.distanceSquared(this.minecraft.getCameraEntity()));
             Waypoint.Icon icon = this.waypoint.icon();
-            WaypointStyle style = this.minecraft.getWaypointStyles().get(icon.style);
+            WaypointStyle style = this.minecraft.gui.hud.getWaypointStyles().get(icon.style);
             float progress = 1-Mth.clamp((distance-style.nearDistance())/(style.farDistance()-style.nearDistance()),0,1);
             k = Mth.lerpInt(progress, 4*100+100, (k)*100);
             l = Mth.lerpInt(progress, 4*100+100, (l)*100);
