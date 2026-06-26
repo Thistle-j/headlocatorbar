@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "MixinLocatorBarRenderer"
+    "MixinLocatorBar"
   ],
   "injectors": {
     "defaultRequire": 1
